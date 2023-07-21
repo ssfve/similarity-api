@@ -16,7 +16,7 @@
     "@mui/system": "^5.11.11",
     "@mui/x-data-grid": "^6.0.0",
     "@next-auth/prisma-adapter": "^1.0.5",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.16.2",
     "@radix-ui/react-dropdown-menu": "^2.0.3",
     "@radix-ui/react-scroll-area": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.2",
