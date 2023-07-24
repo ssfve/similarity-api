@@ -4,10 +4,12 @@ import { NextResponse } from 'next/server'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
-const redis = new Redis({
-  url: process.env.REDIS_URL,
-  token: process.env.REDIS_SECRET,
-})
+// const redis = new Redis({
+  // url: process.env.REDIS_URL,
+  // token: process.env.REDIS_SECRET,
+// })
+
+export const redis = Redis.fromEnv()
 
 const ratelimit = new Ratelimit({
   redis: redis,
