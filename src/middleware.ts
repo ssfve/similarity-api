@@ -8,7 +8,8 @@ import { Redis } from '@upstash/redis'
   // url: process.env.REDIS_URL,
   // token: process.env.REDIS_SECRET,
 // })
-
+console.log(process.env.UPSTASH_REDIS_REST_URL)
+console.log(process.env.UPSTASH_REDIS_REST_TOKEN)
 export const redis = Redis.fromEnv()
 
 const ratelimit = new Ratelimit({
