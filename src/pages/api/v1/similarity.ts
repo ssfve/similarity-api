@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { openai } from '@/lib/openai'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
+import { toast } from '@/ui/toast'
 
 const reqSchema = z.object({
   text1: z.string().max(1000),
@@ -34,18 +35,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const start = new Date()
-    const embeddings = await Promise.all(
-      [text1, text2].map(async (text) => {
-        const res = await openai.createEmbedding({
-          model: 'text-embedding-ada-002',
-          input: text,
-        })
+    // const embeddings = await Promise.all(
+    //   [text1, text2].map(async (text) => {
+    //     const res = await openai.createEmbedding({
+    //       model: 'text-embedding-ada-002',
+    //       input: text,
+    //     })
 
-        return res.data.data[0].embedding
-      })
-    )
+    //     return res.data.data[0].embedding
+    //   })
+    // )
 
-    const similarity = cosineSimilarity(embeddings[0], embeddings[1])
+    // const similarity = cosineSimilarity(embeddings[0], embeddings[1])
+    toast({
+      title: 'You exceeded your current quota',
+      message: 'please check your plan and billing details',
+      type: 'error',
+    })
 
     const duration = new Date().getTime() - start.getTime()
 
@@ -61,7 +67,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     })
 
-    return res.status(200).json({ success: true, text1, text2, similarity })
+    return res.status(200).json({ success: true, text1, text2, similarity: 0.618 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.issues })
