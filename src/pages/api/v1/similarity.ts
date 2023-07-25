@@ -66,7 +66,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.issues })
     }
-
+    console.log(error)
     return res.status(500).json({ error: 'Internal server error' })
   }
 }
