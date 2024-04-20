@@ -38,7 +38,7 @@ export default withAuth(
     // Manage route protection
     //console.log(req)
     const token = await getToken({ req })
-    // console.log(token)
+    console.log("token is ", token)
     const isAuth = !!token
     const isAuthPage = req.nextUrl.pathname.startsWith('/login')
 
@@ -48,7 +48,7 @@ export default withAuth(
       if (isAuth) {
         return NextResponse.redirect(new URL('/dashboard', req.url))
       }
-
+      console.log("user is not authed")
       return null
     }
 
