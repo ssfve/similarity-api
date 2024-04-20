@@ -18,7 +18,7 @@ function getGoogleCredentials(): { clientId: string; clientSecret: string } {
 }
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  // secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
@@ -40,10 +40,12 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email
         session.user.image = token.picture
       }
-      console.log("token is ", token)
+      console.log("session token is ", token)
       return session
     },
     async jwt({ token, user }) {
+      console.log("jwt in function")
+      console.log("jwt token is ", token)
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
@@ -51,10 +53,12 @@ export const authOptions: NextAuthOptions = {
       })
 
       if (!dbUser) {
+        console.log("new token")
         token.id = user!.id
         return token
       }
 
+      console.log("return created session")
       return {
         id: dbUser.id,
         name: dbUser.name,
