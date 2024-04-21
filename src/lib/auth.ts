@@ -67,6 +67,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
     redirect() {
+      console.log("redirect to dashboard")
       return '/dashboard'
     },
   },

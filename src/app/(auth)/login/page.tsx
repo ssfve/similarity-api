@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 
 const page: FC = () => {
+  console.log("login is called")
   return (
     <>
       <div className='absolute inset-0 mx-auto container flex h-screen flex-col items-center justify-center'>
