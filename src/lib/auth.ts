@@ -34,18 +34,18 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
+      console.log("auth token is ", token)
+      console.log("auth session is ", session)
       if (token) {
         session.user.id = token.id
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
       }
-      console.log("session token is ", token)
       return session
     },
     async jwt({ token, user }) {
-      console.log("jwt in function")
-      console.log("jwt token is ", token)
+      console.log("auth user is ", user)
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
@@ -58,7 +58,6 @@ export const authOptions: NextAuthOptions = {
         return token
       }
 
-      console.log("return created session")
       return {
         id: dbUser.id,
         name: dbUser.name,
@@ -67,7 +66,6 @@ export const authOptions: NextAuthOptions = {
       }
     },
     redirect() {
-      console.log("redirect to dashboard")
       return '/dashboard'
     },
   },

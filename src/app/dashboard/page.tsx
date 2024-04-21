@@ -18,7 +18,7 @@ let session : Session | null = null;
 
 const page = async () => {
   // const user = await getServerSession(authOptions)
-
+  console.log("Dashboard is called")
   session = await redis.get(`session`);
   if(!session){
     getServerSession(authOptions).then((session) => {
@@ -30,7 +30,7 @@ const page = async () => {
   while(!session){
     session = await redis.get(`session`);
   }
-  console.log("Navbar session is ", session)
+  console.log("Dashboard session is ", session)
 
   const user = session?.user;
   if (!user) return notFound()
@@ -38,7 +38,7 @@ const page = async () => {
   const apiKey = await db.apiKey.findFirst({
     where: { userId: user.id, enabled: true },
   })
-
+  console.log("apikey is ", apiKey);
   return (
     <div className='max-w-7xl mx-auto mt-16'>
       {apiKey ? (
