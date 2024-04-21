@@ -1,13 +1,26 @@
 import { authOptions } from '@/lib/auth'
-import { getServerSession } from 'next-auth'
+import { redis } from '@/middleware'
+import { getServerSession, Session } from 'next-auth'
 import Link from 'next/link'
 import { ThemeToggle } from './ThemeToggle'
 import { buttonVariants } from './ui/Button'
 import SignInButton from './ui/SignInButton'
 import SignOutButton from './ui/SignOutButton'
 
+let session : Session | null = null;
 const Navbar = async () => {
-  const session = await getServerSession(authOptions)
+  
+  session = await redis.get(`session`);
+  if(!session){
+    getServerSession(authOptions).then((session) => {
+      redis.set(`session`, session);
+      // console.log("getAuthSession is", session);
+    });
+  }
+  
+  while(!session){
+    session = await redis.get(`session`);
+  }
   console.log("Navbar session is ", session)
   return (
     <div className='fixed backdrop-blur-sm bg-white/75 dark:bg-slate-900/75 z-50 top-0 left-0 right-0 h-20 border-b border-slate-300 dark:border-slate-700 shadow-sm flex items-center justify-between'>
