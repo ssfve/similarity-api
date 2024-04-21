@@ -36,7 +36,7 @@ export default withAuth(
     }
 
     // Manage route protection
-    //console.log(req)
+    console.log(req)
     const token = await getToken({ req })
     console.log("token is ", token)
     const isAuth = !!token
